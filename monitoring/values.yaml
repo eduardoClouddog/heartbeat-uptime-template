@@ -3,7 +3,10 @@ image:
   repository: ECR
   tag: latest
 
+imagePullSecrets:
+  - name: ecr-registry
 apps:
+
   - name: heartbeat-app1
     configMapName: configmap-name
     resources:
