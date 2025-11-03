@@ -12,4 +12,15 @@ apps:
         memory: 50Mi
       limits:
         cpu: 100m
+
+        memory: 100Mi
+  - name: heartbeat-app2
+    configMapName: configmap-name
+    resources:
+      requests:
+        cpu: 50m
+        memory: 50Mi
+      limits:
+        cpu: 100m
+
         memory: 100Mi
