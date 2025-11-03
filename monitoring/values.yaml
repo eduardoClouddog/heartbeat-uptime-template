@@ -1,0 +1,25 @@
+replicas: 1
+image:
+  repository: ECR
+  tag: latest
+
+apps:
+  - name: heartbeat-app1
+    configMapName: configmap-name
+    resources:
+      requests:
+        cpu: 50m
+        memory: 50Mi
+      limits:
+        cpu: 100m
+        memory: 100Mi
+
+  - name: heartbeat-app2
+    configMapName: configmap-name2
+    resources:
+      requests:
+        cpu: 50m
+        memory: 50Mi
+      limits:
+        cpu: 100m
+        memory: 100Mi

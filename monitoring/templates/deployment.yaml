@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uptime-heartbeat
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: uptime-heartbeat
+  template:
+    metadata:
+      labels:
+        app: uptime-heartbeat
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+{{- range .Values.apps }}
+        - name: {{ .name }}
+          image: "http://762593866570.dkr.ecr.us-east-1.amazonaws.com/heartbeat-uptime:{{ $.Values.image.tag }}"
+          envFrom:
+            - configMapRef:
+                name: {{ .configMapName }}
+          resources:
+            {{- toYaml .resources | nindent 12 }}
+{{- end }}

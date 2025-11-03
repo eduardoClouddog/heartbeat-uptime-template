@@ -1,0 +1,6 @@
+apiVersion: v2
+name: uptime-heartbeat
+description: Helm chart para o monitoramento heartbeat via ECR
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
