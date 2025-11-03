@@ -18,7 +18,7 @@ spec:
       containers:
 {{- range .Values.apps }}
         - name: {{ .name }}
-          image: "http://762593866570.dkr.ecr.us-east-1.amazonaws.com/heartbeat-uptime:{{ $.Values.image.tag }}"
+          image: "762593866570.dkr.ecr.us-east-1.amazonaws.com/heartbeat-uptime:{{ $.Values.image.tag }}"
           envFrom:
             - configMapRef:
                 name: {{ .configMapName }}
