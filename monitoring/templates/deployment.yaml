@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: uptime-heartbeat
+  name: heartbeat-uptime
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: uptime-heartbeat
+      app: heartbeat-uptime
   template:
     metadata:
       labels:
-        app: uptime-heartbeat
+        app: heartbeat-uptime
     spec:
       securityContext:
         runAsNonRoot: true
