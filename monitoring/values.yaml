@@ -1,26 +1,25 @@
-replicas: 1
 image:
-  repository: ECR
+  repository: 762593866570.dkr.ecr.us-east-1.amazonaws.com/heartbeat-uptime
   tag: latest
+imagePullSecrets:
+  - name: ecr-registry
 
-apps:
-  - name: heartbeat-app1
-    configMapName: configmap-name
-    resources:
-      requests:
-        cpu: 50m
-        memory: 50Mi
-      limits:
-        cpu: 100m
+# Contexto de segurança padrão
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
 
-        memory: 100Mi
-  - name: heartbeat-app2
-    configMapName: configmap-name
-    resources:
-      requests:
-        cpu: 50m
-        memory: 50Mi
-      limits:
-        cpu: 100m
+# Esta lista vem vazia por padrão.
+# Ela será preenchida pelo ArgoCD para cada cliente.
+apps: []
 
-        memory: 100Mi
+# Exemplo (opcional, apenas para documentação):
+# apps:
+#   - name: <nome-do-app>
+#     replicas: 1
+#     heartbeatUrl: "<url-do-uptimerobot>"
+#     serviceUrl: "<url-interna-do-servico>"
+#     resources:
+#       requests:
+#         cpu: 50m
+#         memory: 50Mi

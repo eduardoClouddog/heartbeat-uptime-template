@@ -1,29 +1,34 @@
+{{/* templates/deployment.yaml */}}
+{{- range .Values.apps }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: uptime-heartbeat
+  name: heartbeat-{{ .name }}
+  labels:
+    app.kubernetes.io/name: heartbeat-{{ .name }}
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: {{ .replicas | default 1 }}
   selector:
     matchLabels:
-      app: uptime-heartbeat
+      app.kubernetes.io/name: heartbeat-{{ .name }}
   template:
     metadata:
       labels:
-        app: uptime-heartbeat
+        app.kubernetes.io/name: heartbeat-{{ .name }}
     spec:
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
+        {{- toYaml $.Values.securityContext | nindent 8 }}
       imagePullSecrets:
-        - name: ecr-registry
+        {{- toYaml $.Values.imagePullSecrets | nindent 8 }}
       containers:
-{{- range .Values.apps }}
-        - name: {{ .name }}
-          image: "762593866570.dkr.ecr.us-east-1.amazonaws.com/heartbeat-uptime:{{ $.Values.image.tag }}"
+        - name: heartbeat-monitor
+          # O '$.Values' acessa os valores globais (fora do 'range')
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
           envFrom:
             - configMapRef:
-                name: {{ .configMapName }}
+                # Injeta o ConfigMap específico deste app
+                name: heartbeat-config-{{ .name }}
           resources:
             {{- toYaml .resources | nindent 12 }}
 {{- end }}

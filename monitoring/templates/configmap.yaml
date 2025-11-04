@@ -1,0 +1,14 @@
+{{/* templates/configmap.yaml */}}
+{{- range .Values.apps }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: heartbeat-config-{{ .name }}
+  labels:
+    app.kubernetes.io/name: heartbeat-{{ .name }}
+data:
+  # Estas são as variáveis de ambiente que sua imagem Docker deve ler
+  HEARTBEAT_URL: {{ .heartbeatUrl | quote }}
+  SERVICE_URL: {{ .serviceUrl | quote }}
+{{- end }}
