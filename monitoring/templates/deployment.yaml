@@ -41,7 +41,7 @@ spec:
                 else
                   echo "$(date) - heartbeat NÃO enviado"
                 fi
-                sleep 30
+                sleep 60
               done
 
           resources:
