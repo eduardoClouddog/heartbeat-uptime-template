@@ -6,7 +6,7 @@ apps:
   - name: app1
     secretName: heartbeat-secret-app1
     secretData:
-      SERVICE_URL: "https://url-do-servico-app1.com/health"
+      SERVICE_URL: "http://internal-app.default.svc.cluster.local:8080"
       HEARTBEAT_URL: "https://uptime.com/ping/app1-xyz"
     resources:
       requests:
@@ -19,7 +19,7 @@ apps:
   - name: app2
     secretName: heartbeat-secret-app2
     secretData:
-      SERVICE_URL: "https://url-do-servico-app2.com/status"
+      SERVICE_URL: "http://internal-app2.default.svc.cluster.local:8080"
       HEARTBEAT_URL: "https://uptime.com/ping/app2-abc"
     resources:
       requests:
@@ -32,7 +32,7 @@ apps:
   - name: backend
     secretName: heartbeat-secret-backend-app
     secretData:
-      SERVICE_URL: "https://api.backend.com/ping"
+      SERVICE_URL: "http://backend-app.backend.svc.cluster.local:5000"
       HEARTBEAT_URL: "https://uptime.com/ping/backend-123"
     resources:
       requests:
