@@ -16,23 +16,34 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
-      imagePullSecrets:
-        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
 
-      # A lista de containers é construída dinamicamente
       containers:
       {{- range .Values.apps }}
         - name: {{ .name }}
-          # Usa a imagem global definida no values.yaml
-          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
 
-          # Injeta as variáveis de ambiente a partir de um Secret
-          # O nome do Secret vem da lista 'apps'
+          image: "curlimages/curl:latest"
+
           envFrom:
             - secretRef:
                 name: {{ .secretName }}
 
-          # Define os recursos para este container específico
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              #!/binsh
+
+              echo "Iniciando monitoramento para $SERVICE_URL..."
+
+              while true; do
+                if curl -fsS "$SERVICE_URL" > /dev/null; then
+                  echo "$(date) - Serviço OK."
+                  curl -fsS "$HEARTBEAT_URL"
+                else
+                  echo "$(date) - heartbeat NÃO enviado"
+                fi
+                sleep 60
+              done
+
           resources:
             {{- toYaml .resources | nindent 12 }}
       {{- end }}

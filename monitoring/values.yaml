@@ -1,24 +1,15 @@
-image:
-  repository: 762593866570.dkr.ecr.us-east-1.amazonaws.com/heartbeat-uptime
-  tag: latest
-imagePullSecrets:
-  - name: ecr-registry
+# monitoring/values.yaml
 
-# Contexto de segurança padrão
-securityContext:
-  runAsNonRoot: true
-  runAsUser: 1000
+replicas: 1
 
-# Esta lista vem vazia por padrão.
-# Ela será preenchida pelo ArgoCD para cada cliente.
+# A lista de apps vem vazia por padrão.
+# O ArgoCD irá preenchê-la.
 apps: []
 
-# Exemplo (opcional, apenas para documentação):
+# Exemplo de como a lista 'apps' deve ser preenchida no ArgoCD:
 # apps:
 #   - name: <nome-do-app>
-#     replicas: 1
-#     heartbeatUrl: "<url-do-uptimerobot>"
-#     serviceUrl: "<url-interna-do-servico>"
+#     secretName: <nome-do-secret-com-as-urls>
 #     resources:
 #       requests:
 #         cpu: 50m
