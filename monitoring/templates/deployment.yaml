@@ -46,4 +46,9 @@ spec:
 
           resources:
             {{- toYaml .resources | nindent 12 }}
+        - name: {{ .name }}-metrics
+          image: prom/statsd-exporter:latest
+          ports:
+            - containerPort: 9102
+          args: ["--statsd.listen-udp=:9125", "--web.listen-address=:9102"]
       {{- end }}
